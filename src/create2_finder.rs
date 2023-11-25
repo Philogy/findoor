@@ -55,6 +55,7 @@ pub fn create2_find(
             create2_buffer[1 + 20 + 32 - 13] = (ti % 256) as u8;
             create2_buffer[1 + 20 + 32 - 14] = (ti / 256) as u8;
             let mut reporter = Reporter::new(ti, report_interval_seconds, format);
+            let mut hash = [0u8; 32];
             for b1 in 0..=255 {
                 create2_buffer[1 + 20 + 0x1f - 5] = b1;
                 for b2 in 0..=255 {
@@ -71,7 +72,6 @@ pub fn create2_find(
                                     reporter.record_step();
 
                                     let mut keccak256 = Keccak::v256();
-                                    let mut hash = [0u8; 32];
                                     keccak256.update(&create2_buffer);
                                     keccak256.finalize(&mut hash);
                                     let addr_bytes = &hash[12..];
