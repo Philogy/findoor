@@ -28,7 +28,7 @@ impl Reporter {
     }
 
     pub fn total_elapsed(&self) -> f64 {
-        self.last.elapsed().as_millis() as f64
+        self.first.elapsed().as_millis() as f64
     }
 
     pub fn record_step(&mut self) {

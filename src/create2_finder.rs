@@ -11,6 +11,7 @@ use tiny_keccak::{Hasher, Keccak};
 pub enum Create2FindError {
     InvalidDeployerLength(usize),
     InvalidInitCodeHashLength(usize),
+    TooManyThreads(usize),
 }
 
 pub fn create2_find(
@@ -30,6 +31,10 @@ pub fn create2_find(
         ));
     }
 
+    if thread_count > 0xffff {
+        return Err(Create2FindError::TooManyThreads(thread_count));
+    }
+
     let mut handles = Vec::with_capacity(thread_count);
 
     let mut start_create2_buffer = [0u8; 85];
@@ -43,8 +48,6 @@ pub fn create2_find(
     for (i, byte) in init_code_hash.iter().enumerate() {
         start_create2_buffer[1 + 20 + 32 + i] = *byte;
     }
-
-    println!("start: {}", hex::encode(start_create2_buffer));
 
     for ti in 0..thread_count {
         handles.push(Some(thread::spawn(move || {

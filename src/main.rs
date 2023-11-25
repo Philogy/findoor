@@ -5,6 +5,7 @@ mod num_format;
 mod reporter;
 
 use create2_finder::create2_find;
+use eoa_finder::eoa_find;
 use hex;
 use num_format::NumFormat;
 use structopt::StructOpt;
@@ -39,21 +40,23 @@ fn main() -> Result<(), FindoorError> {
 
     // Change here
 
-    let deployer_address = "4e59b44847b379578588920cA78FbF26c0B4956C";
-    let init_code_hash = "adeec2e1b9fd10ba10a631c44352e132442d4de05bc170f69a7a0ecdfce34a53";
+    // let deployer_address = "4e59b44847b379578588920cA78FbF26c0B4956C";
+    // let init_code_hash = "adeec2e1b9fd10ba10a631c44352e132442d4de05bc170f69a7a0ecdfce34a53";
 
-    create2_find(
-        args.thread_count,
-        args.report_interval,
-        format,
-        hex::decode(deployer_address)
-            .expect("invalid hex?")
-            .as_slice(),
-        hex::decode(init_code_hash)
-            .expect("invalid hex?")
-            .as_slice(),
-    )
-    .expect("no create2 error");
+    // create2_find(
+    //     args.thread_count,
+    //     args.report_interval,
+    //     format,
+    //     hex::decode(deployer_address)
+    //         .expect("invalid hex?")
+    //         .as_slice(),
+    //     hex::decode(init_code_hash)
+    //         .expect("invalid hex?")
+    //         .as_slice(),
+    // )
+    // .expect("no create2 error");
+
+    eoa_find(args.thread_count, args.report_interval, format);
 
     Ok(())
 }
